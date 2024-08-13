@@ -5,6 +5,7 @@ import {useState} from "react";
 import Button from "../components/customButton";
 import {Link, router} from "expo-router";
 import icons from "../constants/icons";
+import {StatusBar} from "expo-status-bar";
 
 const OnBoarding = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -53,12 +54,13 @@ const OnBoarding = () => {
             ))}
           </View>
           <Button
-            title={currentIndex === 2 ? "Login/Register" : "Next"}
+            buttonText={currentIndex === 2 ? "Login/Register" : "Next"}
             handlePress={handleNext}
             containerStyles="px-10"
             icon={icons.arrowRight}
           />
         </View>
+      <StatusBar style="dark"/>
     </SafeAreaView>
   );
 };

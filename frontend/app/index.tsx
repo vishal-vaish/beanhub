@@ -22,7 +22,7 @@ export default function Index() {
           </View>
         </View>
         <Button
-          title="Get Started"
+          buttonText="Get Started"
           handlePress={() => router.push("/onBoarding")}
           containerStyles="w-[90vw] my-10"
         />

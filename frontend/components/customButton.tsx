@@ -1,7 +1,7 @@
 import {ActivityIndicator, TouchableOpacity, Text, Image} from "react-native";
 
 type Props = {
-  title: string;
+  buttonText: string;
   handlePress: () => void;
   isLoading?: boolean;
   containerStyles?: string;
@@ -30,7 +30,7 @@ const Button = (props:Props) => {
         }}
      >
        <Text className={`text-white font-psemibold text-lg ${props.textStyles}`}>
-         {props.title}
+         {props.buttonText}
        </Text>
        {props.icon && (
           <Image

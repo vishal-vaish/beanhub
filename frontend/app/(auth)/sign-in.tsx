@@ -4,6 +4,8 @@ import FormField from "@/components/FormField";
 import {useEffect, useState} from "react";
 import Button from "@/components/customButton";
 import {signProvider} from "@/constants/data";
+import {StatusBar} from "expo-status-bar";
+import {useRouter} from "expo-router";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -13,6 +15,7 @@ const SignIn = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const isNameValid = form.name.trim().length > 0;
   const isPhoneNumberValid = form.phoneNumber.length >= 8 && form.phoneNumber.length <= 11;
+  const router = useRouter();
 
   useEffect(() => {
     if (isNameValid && isPhoneNumberValid) {
@@ -23,9 +26,11 @@ const SignIn = () => {
   }, [form]);
 
   const handleContinue = () => {
-    if(!isNameValid && !isPhoneNumberValid) return;
-
-
+    if (!isNameValid && !isPhoneNumberValid) return;
+    //WIP. Integrating a api
+    //when response coming navigate to
+    // @ts-ignore
+    router.push("/confirmOTP");
   }
 
   return (
@@ -36,7 +41,7 @@ const SignIn = () => {
           className="w-full h-[500px]"
           resizeMode="cover"
         />
-        <View className="bg-white p-4 rounded-t-3xl min-h-[55vh] w-full absolute bottom-0">
+        <View className="bg-white p-4 rounded-t-3xl min-h-[60vh] w-full absolute bottom-0">
           <View className="relative flex justify-center items-center mt-2">
             <View className="w-full border border-slate-300"/>
             <Text className="absolute overflow-auto bg-white px-4 text-lg">Login or Sign Up</Text>
@@ -48,7 +53,7 @@ const SignIn = () => {
             inputPlaceholder="Enter your full name"
           />
           <FormField
-            title="phoneNumber"
+            title="number"
             inputValue={form.phoneNumber}
             handleChangeText={(e) => setForm({...form, phoneNumber: e})}
             inputPlaceholder="Enter your Phone number"
@@ -64,10 +69,10 @@ const SignIn = () => {
           </View>
 
           <Button
-            title="Continue"
+            buttonText="Continue"
             handlePress={handleContinue}
             disabled={isDisabled}
-            />
+          />
 
           <Text className="text-[#646982] font-pbold mt-5 text-center text-xl">Or</Text>
 
@@ -79,11 +84,11 @@ const SignIn = () => {
                 style={{
                   backgroundColor: provider.backgroundColor,
                   shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 4 },
+                  shadowOffset: {width: 0, height: 4},
                   shadowOpacity: 0.3,
                   shadowRadius: 7,
                   elevation: 5,
-              }}
+                }}
               >
                 <Image
                   source={provider.icon}
@@ -95,6 +100,7 @@ const SignIn = () => {
           </View>
         </View>
       </View>
+      <StatusBar style="light"/>
     </ScrollView>
   )
 }

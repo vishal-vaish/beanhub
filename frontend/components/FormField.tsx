@@ -13,6 +13,15 @@ type Props = {
 const FormField = (props: Props) => {
   const [isFocused, setIsFocused] = useState(false);
 
+  const handleTextChange = (text: string) => {
+    if (props.title === "number") {
+      const numericText = text.replace(/[^0-9]/g, "");
+      props.handleChangeText(numericText);
+    } else {
+      props.handleChangeText(text);
+    }
+  };
+
   return (
     <View className={`space-y-2 mt-7 ${props.containerStyle}`}>
       <View
@@ -20,13 +29,13 @@ const FormField = (props: Props) => {
         style={{
           backgroundColor: "#ffffff",
           shadowColor: "#000",
-          shadowOffset: { width: -10, height: 10 },
+          shadowOffset: {width: -10, height: 10},
           shadowOpacity: isFocused ? 0.7 : 0,
           shadowRadius: isFocused ? 50 : 0,
           elevation: isFocused ? 15 : 0,
         }}
       >
-        {props.title === "phoneNumber" && (
+        {props.title === "number" && (
           <Text className="mr-3 font-psemibold font-bold text-lg">+91</Text>
         )}
         <TextInput
@@ -34,7 +43,8 @@ const FormField = (props: Props) => {
           value={props.inputValue}
           placeholder={props.inputPlaceholder}
           placeholderTextColor="#7B7B8B"
-          onChangeText={props.handleChangeText}
+          keyboardType={props.title === "number" ? "phone-pad" : "default"}
+          onChangeText={handleTextChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />

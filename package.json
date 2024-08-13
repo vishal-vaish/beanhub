@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@twotalltotems/react-native-otp-input": "^1.3.11"
+  }
+}
