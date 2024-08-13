@@ -1,8 +1,10 @@
-import {SplashScreen, Stack} from "expo-router";
+import {router, SplashScreen, Stack} from "expo-router";
 import {useFonts} from "expo-font";
 import {useEffect} from "react";
+import {AuthProvider, useAuth} from "@/context/AuthProvider";
 
-const RootLayout = () =>  {
+const RootLayout = () => {
+  const {accessToken} = useAuth();
   const [fontsLoaded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -16,14 +18,20 @@ const RootLayout = () =>  {
   });
 
   useEffect(() => {
-    if(error) throw error;
+    if (error) throw error;
 
-    if(fontsLoaded) {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, error]);
 
-  if(!fontsLoaded) {
+  useEffect(() => {
+    if(fontsLoaded && accessToken) {
+      router.replace("/home");
+    }
+  }, [accessToken, fontsLoaded]);
+
+  if (!fontsLoaded) {
     return null;
   }
 
@@ -32,13 +40,21 @@ const RootLayout = () =>  {
   }
 
   return (
-     <Stack>
-       <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
-       <Stack.Screen name="index" options={{ headerShown: false }} />
-       <Stack.Screen name="onBoarding" options={{ headerShown: false }} />
-       <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-     </Stack>
+    <AuthProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+        <Stack.Screen name="index" options={{headerShown: false}}/>
+        <Stack.Screen name="onBoarding" options={{headerShown: false}}/>
+        <Stack.Screen name="(auth)" options={{headerShown: false}}/>
+      </Stack>
+    </AuthProvider>
   );
 }
 
-export default RootLayout;
+const AppRoot = () => (
+  <AuthProvider>
+    <RootLayout/>
+  </AuthProvider>
+);
+
+export default AppRoot;

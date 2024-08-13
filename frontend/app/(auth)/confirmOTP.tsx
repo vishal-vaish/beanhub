@@ -2,10 +2,13 @@ import {View, Text, ScrollView} from "react-native";
 import Button from "@/components/customButton";
 import {useEffect, useState} from "react";
 import {OtpInput} from "react-native-otp-entry";
+import {useAuth} from "@/context/AuthProvider";
+import {router} from "expo-router";
 
 const ConfirmOTP = () => {
   const [otpText, setOtpText] = useState<string>("");
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const {login} = useAuth();
 
   useEffect(() => {
     if (otpText.length === 4) {
@@ -15,10 +18,33 @@ const ConfirmOTP = () => {
     }
   }, [otpText]);
 
-  const handlePress = () => {
-    console.log(otpText);
-    //WIP. integrate the otp validation
-  }
+  const handlePress = async () => {
+    //WIP. to integrate the otp api
+    // try {
+    //   const response = await fetch('https://your-api.com/validate-otp', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ otp: otpText }),
+    //   });
+    //   const data = await response.json();
+    //
+    //   if (data.success) {
+    //     const accessToken = data.accessToken;
+        const accessToken = "aslknfkjsdgjfksdfgk;jsdgsdfgb;jskdgbsdf;";
+
+        await login(accessToken);
+        router.push("/home");
+    //
+    //     console.log('Token stored and context updated!');
+    //   } else {
+    //     console.log('OTP validation failed.');
+    //   }
+    // } catch (error) {
+    //   console.error('Error validating OTP:', error);
+    // }
+  };
 
   return (
     <View className="flex-1 bg-white">

@@ -1,14 +1,22 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import {SafeAreaView} from "react-native-safe-area-context";
 import {onBoardingData} from "@/constants/data";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Button from "../components/customButton";
 import {Link, router} from "expo-router";
 import icons from "../constants/icons";
 import {StatusBar} from "expo-status-bar";
+import {useAuth} from "@/context/AuthProvider";
 
 const OnBoarding = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const {accessToken} = useAuth();
+
+  useEffect(() => {
+    if(accessToken) {
+      router.replace("/home")
+    }
+  }, [accessToken]);
 
   const Dot = ({active}: { active: boolean }) => (
     <View

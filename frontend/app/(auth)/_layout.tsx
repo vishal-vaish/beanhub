@@ -1,6 +1,16 @@
-import {Stack} from "expo-router";
+import {router, Stack} from "expo-router";
+import {useAuth} from "@/context/AuthProvider";
+import {useEffect} from "react";
 
 const AuthLayout = () => {
+  const {accessToken} = useAuth();
+
+  useEffect(() => {
+    if(accessToken) {
+      router.replace("/home")
+    }
+  }, [accessToken]);
+
   return (
     <>
       <Stack>

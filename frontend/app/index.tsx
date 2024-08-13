@@ -3,8 +3,19 @@ import images from "../constants/images";
 import {StatusBar} from "expo-status-bar";
 import Button from "../components/customButton";
 import {router} from "expo-router";
+import {useEffect} from "react";
+import {useAuth} from "@/context/AuthProvider";
 
 export default function Index() {
+  const {accessToken} = useAuth();
+
+  useEffect(() => {
+    if(accessToken) {
+      router.replace("/home")
+    }
+  }, [accessToken]);
+
+  if(accessToken === null) return ;
 
   return (
     <>
