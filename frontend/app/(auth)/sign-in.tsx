@@ -62,9 +62,9 @@ const SignIn = () => {
           <View className="mx-auto w-[75%] my-8">
             <Text className="font-psemibold text-gray-500 text-center">
               By tapping "Continue" you agree to our {" "}
-              <Text className="text-blue-600">Terms of Use</Text>
+              <Text className="text-info">Terms of Use</Text>
               {" "}and{" "}
-              <Text className="text-blue-600">Privacy Policy</Text>
+              <Text className="text-info">Privacy Policy</Text>
             </Text>
           </View>
 

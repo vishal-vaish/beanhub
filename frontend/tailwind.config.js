@@ -6,6 +6,11 @@ module.exports = {
       colors: {
         primary: "#5D4037",
         secondary: "#CACACA",
+        background: "#EFEBE9",
+        iconColor: "#FFB800",
+        heading:"#3C3C3C",
+        paragraph:"#555555",
+        info: "#03539E"
       },
       boxShadow: {
         'custom-medium': '10px 20px 30px #000000',

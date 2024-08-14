@@ -80,7 +80,7 @@ const ConfirmOTP = () => {
             />
             <Text className="text-center text-base mt-6">
               Haven't got the confirmation code yet{" "}
-              <Text className="text-blue-800">Resend</Text>
+              <Text className="text-info font-semibold">Resend</Text>
             </Text>
           </View>
         </View>

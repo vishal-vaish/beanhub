@@ -2,6 +2,7 @@ import {router, SplashScreen, Stack} from "expo-router";
 import {useFonts} from "expo-font";
 import {useEffect} from "react";
 import {AuthProvider, useAuth} from "@/context/AuthProvider";
+import {UserProvider} from "@/context/UserProvider";
 
 const RootLayout = () => {
   const {accessToken} = useAuth();
@@ -26,7 +27,7 @@ const RootLayout = () => {
   }, [fontsLoaded, error]);
 
   useEffect(() => {
-    if(fontsLoaded && accessToken) {
+    if (fontsLoaded && accessToken) {
       router.replace("/home");
     }
   }, [accessToken, fontsLoaded]);
@@ -41,12 +42,14 @@ const RootLayout = () => {
 
   return (
     <AuthProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-        <Stack.Screen name="index" options={{headerShown: false}}/>
-        <Stack.Screen name="onBoarding" options={{headerShown: false}}/>
-        <Stack.Screen name="(auth)" options={{headerShown: false}}/>
-      </Stack>
+      <UserProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+          <Stack.Screen name="index" options={{headerShown: false}}/>
+          <Stack.Screen name="onBoarding" options={{headerShown: false}}/>
+          <Stack.Screen name="(auth)" options={{headerShown: false}}/>
+        </Stack>
+      </UserProvider>
     </AuthProvider>
   );
 }

@@ -20,7 +20,7 @@ const OnBoarding = () => {
 
   const Dot = ({active}: { active: boolean }) => (
     <View
-      className={`w-4 h-4 rounded-full ${active ? 'bg-primary' : 'bg-gray-400'} mx-1`}
+      className={`h-4 rounded-full ${active ? 'bg-primary w-8' : 'bg-gray-400 w-4'} mx-1`}
     />
   );
 
@@ -48,10 +48,10 @@ const OnBoarding = () => {
             className="w-[300px] h-[300px]"
             resizeMode="contain"
           />
-          <Text className="text-2xl font-bold mt-4">
+          <Text className="text-2xl font-bold mt-4 text-heading">
             {onBoardingData[currentIndex].title}
           </Text>
-          <Text className="text-center mt-2 px-6 text-sm">
+          <Text className="text-center mt-2 px-6 text-sm text-paragraph">
             {onBoardingData[currentIndex].description}
           </Text>
         </View>

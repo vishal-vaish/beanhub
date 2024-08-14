@@ -1,6 +1,8 @@
-import {Tabs} from "expo-router";
+import {router, Tabs} from "expo-router";
 import {View, Text, Image} from "react-native";
 import icons from "../../constants/icons";
+import {useEffect} from "react";
+import {useAuth} from "@/context/AuthProvider";
 
 type tabIconProps = {
   icon:any;
@@ -10,6 +12,15 @@ type tabIconProps = {
 }
 
 const TabIcon = (props:tabIconProps) => {
+  const {accessToken} = useAuth();
+
+  useEffect(() => {
+    if(!accessToken) {
+      router.replace("/sign-in");
+    }
+  }, [accessToken]);
+
+
   return (
      <View className="flex items-center justify-center gap-2">
        <Image

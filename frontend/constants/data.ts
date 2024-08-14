@@ -39,3 +39,126 @@ export const signProvider = [
     icon: icons.apple
   }
 ]
+
+export const products = [
+  {
+    "id": "1",
+    "cafeName": "Brewed Bliss",
+    "closed": false,
+    "rating": 4.5,
+    "distance": "1.2 km",
+    "items": {
+      "burger": true,
+      "pizza": false,
+      "momos": true
+    }
+  },
+  {
+    "id": "2",
+    "cafeName": "Java Junction",
+    "closed": true,
+    "rating": 3.8,
+    "distance": "2.0 km",
+    "items": {
+      "burger": true,
+      "pizza": true,
+      "momos": false
+    }
+  },
+  {
+    "id": "3",
+    "cafeName": "Espresso Express",
+    "closed": false,
+    "rating": 4.2,
+    "distance": "0.5 km",
+    "items": {
+      "burger": false,
+      "pizza": true,
+      "momos": true
+    }
+  },
+  {
+    "id": "4",
+    "cafeName": "Latte Land",
+    "closed": false,
+    "rating": 4.0,
+    "distance": "1.8 km",
+    "items": {
+      "burger": true,
+      "pizza": true,
+      "momos": false
+    }
+  },
+  {
+    "id": "5",
+    "cafeName": "Caffeine Haven",
+    "closed": true,
+    "rating": 4.8,
+    "distance": "3.0 km",
+    "items": {
+      "burger": false,
+      "pizza": true,
+      "momos": true
+    }
+  },
+  {
+    "id": "6",
+    "cafeName": "Mocha Manor",
+    "closed": false,
+    "rating": 3.5,
+    "distance": "2.5 km",
+    "items": {
+      "burger": true,
+      "pizza": false,
+      "momos": true
+    }
+  },
+  {
+    "id": "7",
+    "cafeName": "Café Central",
+    "closed": false,
+    "rating": 4.6,
+    "distance": "1.0 km",
+    "items": {
+      "burger": true,
+      "pizza": true,
+      "momos": false
+    }
+  },
+  {
+    "id": "8",
+    "cafeName": "Bean Bistro",
+    "closed": true,
+    "rating": 4.1,
+    "distance": "0.8 km",
+    "items": {
+      "burger": false,
+      "pizza": true,
+      "momos": false
+    }
+  },
+  {
+    "id": "9",
+    "cafeName": "Drip Delight",
+    "closed": false,
+    "rating": 4.7,
+    "distance": "1.5 km",
+    "items": {
+      "burger": true,
+      "pizza": true,
+      "momos": true
+    }
+  },
+  {
+    "id": "10",
+    "cafeName": "Brew Brothers",
+    "closed": false,
+    "rating": 4.3,
+    "distance": "2.2 km",
+    "items": {
+      "burger": true,
+      "pizza": false,
+      "momos": true
+    }
+  }
+]

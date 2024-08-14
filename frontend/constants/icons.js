@@ -5,6 +5,7 @@ import arrowRight from "../assets/icons/arrow_forward.png";
 import google from "../assets/icons/google.png";
 import facebook from "../assets/icons/facebook.png";
 import apple from "../assets/icons/apple.png";
+import bell from "../assets/icons/bell.png";
 
 export default {
   home,
@@ -13,5 +14,6 @@ export default {
   arrowRight,
   google,
   facebook,
-  apple
+  apple,
+  bell
 };
