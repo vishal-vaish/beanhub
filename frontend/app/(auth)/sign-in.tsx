@@ -47,13 +47,13 @@ const SignIn = () => {
             <Text className="absolute overflow-auto bg-white px-4 text-lg">Login or Sign Up</Text>
           </View>
           <FormField
-            title="text"
+            type="text"
             inputValue={form.name}
             handleChangeText={(e) => setForm({...form, name: e})}
             inputPlaceholder="Enter your full name"
           />
           <FormField
-            title="number"
+            type="number"
             inputValue={form.phoneNumber}
             handleChangeText={(e) => setForm({...form, phoneNumber: e})}
             inputPlaceholder="Enter your Phone number"

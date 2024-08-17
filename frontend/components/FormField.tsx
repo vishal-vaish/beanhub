@@ -1,20 +1,21 @@
-import {View, Text, ViewStyle, TextInput, TouchableOpacity} from "react-native";
+import {View, Text, ViewStyle, TextInput, TouchableOpacity, Image} from "react-native";
 import {useState} from "react";
-import {bgWhite} from "colorette";
+import React from "react";
 
 type Props = {
-  title: string;
+  type: string;
   inputValue: string;
   containerStyle?: string;
   inputPlaceholder: string;
   handleChangeText: (e: any) => void;
+  icon?: React.ReactElement;
 }
 
 const FormField = (props: Props) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleTextChange = (text: string) => {
-    if (props.title === "number") {
+    if (props.type === "number") {
       const numericText = text.replace(/[^0-9]/g, "");
       props.handleChangeText(numericText);
     } else {
@@ -35,15 +36,18 @@ const FormField = (props: Props) => {
           elevation: isFocused ? 15 : 0,
         }}
       >
-        {props.title === "number" && (
+        {props.type === "number" && (
           <Text className="mr-3 font-psemibold font-bold text-lg">+91</Text>
+        )}
+        {props.icon && (
+          <Text className="mr-5">{props.icon}</Text>
         )}
         <TextInput
           className="flex-1 font-psemibold text-base mt-1"
           value={props.inputValue}
           placeholder={props.inputPlaceholder}
           placeholderTextColor="#7B7B8B"
-          keyboardType={props.title === "number" ? "phone-pad" : "default"}
+          keyboardType={props.type === "number" ? "phone-pad" : "default"}
           onChangeText={handleTextChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

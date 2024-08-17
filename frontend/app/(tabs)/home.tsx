@@ -1,42 +1,43 @@
-import {View, Text, FlatList, Image, TouchableOpacity} from "react-native";
+import {View, Text, FlatList} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {products} from "@/constants/data";
 import ItemCard from "@/components/ItemCard";
-import icons from "@/constants/icons";
-import {useAuth} from "@/context/AuthProvider";
+import {Feather} from "@expo/vector-icons";
+import Search from "@/components/Search";
 
 const Home = () => {
-  const {logout} = useAuth();
 
   return (
-    <SafeAreaView className="bg-background h-full px-4">
+    <SafeAreaView className="bg-white h-full">
       <FlatList
+        className="mx-3"
         data={products}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => (
-          <ItemCard/>
+          <ItemCard
+            key={item.id}
+            data={item}
+          />
         )}
         ListHeaderComponent={() => (
-          <View>
+          <View className="">
+          <View className="flex-row justify-between px-2 items-center">
             <View>
-            <Text className="text-iconColor text-base font-pbold">Location:</Text>
-            <Text className="font-pmedium text-base">Kolkata</Text>
+              <Text className="text-iconColor text-sm font-pbold">Location:</Text>
+              <Text className="font-pmedium text-base">hazra road, kolkata</Text>
             </View>
-            <View>
-              <Image
-                source={icons.bell}
-                className="w-[50px] h-[50px]"
-                resizeMode="contain"
-              />
+              <Feather name="bell" size={30} color="black" />
+          </View>
+            <Text className="font-pmedium text-heading mt-5 text-xl">Welcome back,</Text>
+            {/*Search bar*/}
+              <Search/>
 
-              <TouchableOpacity
-                onPress={logout}
-              >
-                <Text>Press</Text>
-              </TouchableOpacity>
-            </View>
+            {/*All Category*/}
+
           </View>
         )}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   )

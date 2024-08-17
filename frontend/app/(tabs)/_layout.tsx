@@ -3,6 +3,7 @@ import {View, Text, Image} from "react-native";
 import icons from "../../constants/icons";
 import {useEffect} from "react";
 import {useAuth} from "@/context/AuthProvider";
+import TabBar from "@/components/TabBar";
 
 type tabIconProps = {
   icon:any;
@@ -43,44 +44,13 @@ const TabLayout = () => {
     return (
        <>
          <Tabs
-            screenOptions={{
-              tabBarActiveTintColor: "#5D4037",
-              tabBarInactiveTintColor: "#CACACA",
-              tabBarShowLabel: false,
-              tabBarStyle: {
-                backgroundColor: "#FFFFFF",
-                height: 80,
-              },
-            }}
+           tabBar={props => <TabBar {...props}/>}
          >
            <Tabs.Screen
               name="home"
               options={{
                 title: "Home",
                 headerShown: false,
-                tabBarIcon: ({ color, focused }) => (
-                   <TabIcon
-                      icon={icons.home}
-                      color={color}
-                      name="Home"
-                      focused={focused}
-                   />
-                ),
-              }}
-           />
-           <Tabs.Screen
-              name="cafe"
-              options={{
-                title: "Cafe",
-                headerShown: false,
-                tabBarIcon: ({ color, focused }) => (
-                   <TabIcon
-                      icon={icons.cafe}
-                      color={color}
-                      name="Cafe"
-                      focused={focused}
-                   />
-                ),
               }}
            />
            <Tabs.Screen
@@ -88,15 +58,14 @@ const TabLayout = () => {
               options={{
                 title: "Profile",
                 headerShown: false,
-                tabBarIcon: ({ color, focused }) => (
-                   <TabIcon
-                      icon={icons.profile}
-                      color={color}
-                      name="Profile"
-                      focused={focused}
-                   />
-                ),
               }}
+           />
+           <Tabs.Screen
+             name="bookmark"
+             options={{
+               title: "Bookmark",
+               headerShown: false,
+             }}
            />
          </Tabs>
        </>
