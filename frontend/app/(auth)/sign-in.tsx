@@ -1,24 +1,22 @@
 import {View, Text, Image, ScrollView} from "react-native";
-import images from "@/constants/images";
+import images from "@/utils/images";
 import FormField from "@/components/FormField";
 import {useEffect, useState} from "react";
 import Button from "@/components/customButton";
-import {signProvider} from "@/constants/data";
+import {signProvider} from "@/utils/constant";
 import {StatusBar} from "expo-status-bar";
 import {useRouter} from "expo-router";
 
 const SignIn = () => {
   const [form, setForm] = useState({
-    name: "",
     phoneNumber: "",
   });
   const [isDisabled, setIsDisabled] = useState(true);
-  const isNameValid = form.name.trim().length > 0;
   const isPhoneNumberValid = form.phoneNumber.length >= 8 && form.phoneNumber.length <= 11;
   const router = useRouter();
 
   useEffect(() => {
-    if (isNameValid && isPhoneNumberValid) {
+    if (isPhoneNumberValid) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
@@ -26,7 +24,7 @@ const SignIn = () => {
   }, [form]);
 
   const handleContinue = () => {
-    if (!isNameValid && !isPhoneNumberValid) return;
+    if (!isPhoneNumberValid) return;
     //WIP. Integrating a api
     //when response coming navigate to
     // @ts-ignore
@@ -35,32 +33,27 @@ const SignIn = () => {
 
   return (
     <ScrollView contentContainerStyle={{height: "100%"}}>
-      <View className="flex relative h-full">
+      <View className="relative flex h-full">
         <Image
           source={images.coffeeBeans}
           className="w-full h-[500px]"
           resizeMode="cover"
         />
-        <View className="bg-white p-4 rounded-t-3xl min-h-[60vh] w-full absolute bottom-0">
-          <View className="relative flex justify-center items-center mt-2">
+        <View className="bg-white p-4 rounded-t-3xl min-h-[55vh] w-full absolute bottom-0">
+          <View className="relative flex items-center justify-center mt-2">
             <View className="w-full border border-slate-300"/>
-            <Text className="absolute overflow-auto bg-white px-4 text-lg">Login or Sign Up</Text>
+            <Text className="absolute px-4 overflow-auto text-lg bg-white">Login or Sign Up</Text>
           </View>
-          <FormField
-            type="text"
-            inputValue={form.name}
-            handleChangeText={(e) => setForm({...form, name: e})}
-            inputPlaceholder="Enter your full name"
-          />
           <FormField
             type="number"
             inputValue={form.phoneNumber}
             handleChangeText={(e) => setForm({...form, phoneNumber: e})}
             inputPlaceholder="Enter your Phone number"
+            containerStyle={"mt-10"}
           />
 
           <View className="mx-auto w-[75%] my-8">
-            <Text className="font-psemibold text-gray-500 text-center">
+            <Text className="text-center text-gray-500 font-psemibold">
               By tapping "Continue" you agree to our {" "}
               <Text className="text-info">Terms of Use</Text>
               {" "}and{" "}
@@ -76,11 +69,11 @@ const SignIn = () => {
 
           <Text className="text-[#646982] font-pbold mt-5 text-center text-xl">Or</Text>
 
-          <View className="flex-row justify-evenly items-center">
+          <View className="flex-row items-center justify-evenly mt-5">
             {signProvider.map((provider, index) => (
               <View
                 key={index}
-                className="border border-transparent p-4 mt-2 rounded-full"
+                className="p-4 mt-2 border border-transparent rounded-full"
                 style={{
                   backgroundColor: provider.backgroundColor,
                   shadowColor: "#000",

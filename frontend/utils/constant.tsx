@@ -1,5 +1,5 @@
-import images from "./images";
-import icons from "@/constants/icons";
+import images from "@/utils/images";
+import icons from "@/utils/icons";
 import {Burger, ItemCardTypes, Momo, Pizza} from "@/utils/types";
 
 export const COLOR = {

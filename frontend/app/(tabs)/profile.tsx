@@ -1,10 +1,12 @@
-import {View, Text} from "react-native";
+import {View, Text, FlatList} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 const Profile = () => {
+
   return (
-     <View className="flex-1 justify-center items-center">
-       <Text>Profile</Text>
-     </View>
+    <View>
+      <Text>Profile</Text>
+    </View>
   )
 }
 

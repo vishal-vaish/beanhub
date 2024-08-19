@@ -1,6 +1,6 @@
 import {TouchableOpacity, View, Text} from "react-native";
-import {AntDesign, MaterialIcons} from "@expo/vector-icons";
-import {COLOR} from "@/constants/data";
+import {AntDesign, MaterialIcons, Ionicons} from "@expo/vector-icons";
+import {COLOR} from "@/utils/constant";
 
 type Props = {
   state: any,
@@ -8,18 +8,17 @@ type Props = {
   navigation: any;
 }
 
-
 const TabBar = (props: Props) => {
 
   const icons: Record<string, (props: any) => JSX.Element> = {
     home: (props) => <AntDesign name="home" size={26} color={COLOR.iconColor} {...props} />,
     profile: (props) => <MaterialIcons name="favorite-border" size={26} color={COLOR.iconColor} {...props} />,
-    bookmark: (props) => <AntDesign name="user" size={26} color={COLOR.iconColor} {...props} />,
+    cafe: (props) => <Ionicons name="cafe-sharp" size={26} color={COLOR.iconColor} {...props} />,
   };
 
   return (
     <View
-      className="absolute bottom-5 flex-row justify-between bg-primary mx-5 py-4 rounded-full"
+      className="absolute flex-row justify-between py-4 mx-5 rounded-full bottom-5 bg-primary"
       style={{
         borderCurve: "continuous",
         shadowColor: "black",
@@ -67,7 +66,7 @@ const TabBar = (props: Props) => {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            className="flex-1 justify-center items-center gap-1"
+            className="items-center justify-center flex-1 gap-1"
           >
             {
               icons[route.name]({

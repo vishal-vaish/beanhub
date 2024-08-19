@@ -1,6 +1,6 @@
 import {router, Tabs} from "expo-router";
 import {View, Text, Image} from "react-native";
-import icons from "../../constants/icons";
+import icons from "../../utils/icons";
 import {useEffect} from "react";
 import {useAuth} from "@/context/AuthProvider";
 import TabBar from "@/components/TabBar";
@@ -20,7 +20,6 @@ const TabIcon = (props:tabIconProps) => {
       router.replace("/sign-in");
     }
   }, [accessToken]);
-
 
   return (
      <View className="flex items-center justify-center gap-2">
@@ -54,18 +53,18 @@ const TabLayout = () => {
               }}
            />
            <Tabs.Screen
+             name="cafe"
+             options={{
+               title: "Cafe",
+               headerShown: false,
+             }}
+           />
+           <Tabs.Screen
               name="profile"
               options={{
                 title: "Profile",
                 headerShown: false,
               }}
-           />
-           <Tabs.Screen
-             name="bookmark"
-             options={{
-               title: "Bookmark",
-               headerShown: false,
-             }}
            />
          </Tabs>
        </>

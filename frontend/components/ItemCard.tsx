@@ -1,7 +1,7 @@
 import {View, Text, Image} from "react-native";
 import {ItemCardTypes} from "@/utils/types";
 import {AntDesign, FontAwesome, Ionicons} from "@expo/vector-icons";
-import {COLOR} from "@/constants/data";
+import {COLOR} from "@/utils/constant";
 
 type Props = {
   data: ItemCardTypes;
@@ -47,7 +47,7 @@ const ItemCard = (props: Props) => {
         <View className="mt-5 mr-3">
           {props.data.closed ? (
             <Text className="rounded-lg bg-green-500 text-white py-2 px-2 text-base">
-                Opened
+              Opened
             </Text>
           ) : (
             <Text className="rounded-lg bg-red-500 text-white py-2 px-2 text-base">

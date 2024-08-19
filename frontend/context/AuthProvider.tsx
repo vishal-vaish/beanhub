@@ -2,12 +2,16 @@ import React, {createContext, useContext, useState, ReactNode, useEffect} from '
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface AuthContextProps {
-  accessToken: string | null | undefined;
-  login: (token: string) => Promise<void>;
-  logout: () => Promise<void>;
+  accessToken: string;
+  login: () => void;
+  logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextProps>({
+  accessToken: "",
+  login: () => {},
+  logout: () => {},
+});
 
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
@@ -21,20 +25,20 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
+export const AuthProvider = ({children}:AuthProviderProps) => {
   const [accessToken, setAccessToken]
-    = useState<string | null | undefined>(null);
+    = useState<string>("");
 
-  const login = async (token: string): Promise<void> => {
-    await AsyncStorage.setItem('accessToken', token);
-    setAccessToken(token);
+  const login = async (): Promise<void> => {
+    await AsyncStorage.setItem('accessToken', accessToken);
+    setAccessToken(accessToken);
   };
 
   console.log(accessToken);
 
   const logout = async (): Promise<void> => {
     await AsyncStorage.removeItem('accessToken');
-    setAccessToken(null);
+    setAccessToken("");
   };
 
   useEffect(() => {
@@ -43,14 +47,17 @@ export const AuthProvider = ({children}: AuthProviderProps): JSX.Element => {
         const storedToken = await AsyncStorage.getItem('accessToken');
         if (storedToken) {
           setAccessToken(storedToken);
-        } else {
-          setAccessToken(undefined);
         }
       } catch (error) {
         console.error('Failed to load access token', error);
       }
     };
     loadAccessToken();
+  }, []);
+
+  useEffect(() => {
+    const mockedAccessToken = "aslknfkjsdgjfksdfgk;jsdgsdfgb;jskdgbsdf;";
+    setAccessToken(mockedAccessToken);
   }, []);
 
   return (

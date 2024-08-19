@@ -1,16 +1,14 @@
 import {View, Text, FlatList} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {products} from "@/constants/data";
+import {products} from "@/utils/constant";
 import ItemCard from "@/components/ItemCard";
 import {Feather} from "@expo/vector-icons";
 import Search from "@/components/Search";
 
 const Home = () => {
-
   return (
     <SafeAreaView className="bg-white h-full">
       <FlatList
-        className="mx-3"
         data={products}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => (
@@ -20,17 +18,17 @@ const Home = () => {
           />
         )}
         ListHeaderComponent={() => (
-          <View className="">
-          <View className="flex-row justify-between px-2 items-center">
-            <View>
-              <Text className="text-iconColor text-sm font-pbold">Location:</Text>
-              <Text className="font-pmedium text-base">hazra road, kolkata</Text>
-            </View>
+          <View className="mx-2">
+            <View className="flex-row justify-between px-2 items-center">
+              <View>
+                <Text className="text-iconColor text-base font-pbold">Location:</Text>
+                <Text className="font-pmedium text-base">hazra road, kolkata</Text>
+              </View>
               <Feather name="bell" size={30} color="black" />
-          </View>
+            </View>
             <Text className="font-pmedium text-heading mt-5 text-xl">Welcome back,</Text>
             {/*Search bar*/}
-              <Search/>
+            <Search/>
 
             {/*All Category*/}
 
@@ -38,7 +36,7 @@ const Home = () => {
         )}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-      />
+        />
     </SafeAreaView>
   )
 }
