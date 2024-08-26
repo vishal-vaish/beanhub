@@ -1,5 +1,4 @@
 import images from "@/utils/images";
-import icons from "@/utils/icons";
 import {Burger, ItemCardTypes, Momo, Pizza} from "@/utils/types";
 
 export const COLOR = {
@@ -28,24 +27,6 @@ export const onBoardingData = [
     description: "Exciting prizes await you! Redeem yours by collecting all the points after purchase in the app!",
     icon: images.onBoarding_2,
   },
-]
-
-export const signProvider = [
-  {
-    id: 1,
-    backgroundColor: "#F0F5FA",
-    icon: icons.google
-  },
-  {
-    id: 2,
-    backgroundColor: "#395998",
-    icon: icons.facebook
-  },
-  {
-    id: 3,
-    backgroundColor: "#1B1F2F",
-    icon: icons.apple
-  }
 ]
 
 const mockedBurger:Burger[] = [
