@@ -9,5 +9,7 @@ export default {
   lightGreen: '#DBFFCB',
   red: '#EF0827',
   yellow: '#FCC70B',
+  white: "#FFFFFF",
+  black: "#000000"
 };
 

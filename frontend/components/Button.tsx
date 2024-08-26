@@ -44,6 +44,22 @@ const Button = (props: Props) => {
       <Text style={[styles.buttonText, props.textStyles]}>
         {props.buttonText}
       </Text>
+
+      {props.icon && (
+        <Image
+          source={props.icon}
+          style={styles.icon}
+        />
+      )}
+
+      {props.isLoading && (
+        <ActivityIndicator
+          animating={props.isLoading}
+          color="#fff"
+          size="small"
+          style={styles.loadingIndicator}
+        />
+      )}
     </TouchableOpacity>
   );
 };
@@ -52,7 +68,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: Colors.primary,
     borderRadius: 15,
-    minHeight: 62,
+    minHeight: 60,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -69,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   icon: {
-    marginLeft: 6,
+    marginLeft: 20,
     width: 25,
     height: 25,
   },
