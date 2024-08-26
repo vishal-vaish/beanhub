@@ -1,15 +1,15 @@
-import {Text, View, Image} from "react-native";
-import images from "../constants/images";
-import {StatusBar} from "expo-status-bar";
-import {Redirect, router} from "expo-router";
-import {useEffect, useState} from "react";
-import {useAuth} from "@/context/AuthProvider";
+import { Text, View } from "react-native";
 
 export default function Index() {
-  const {accessToken} = useAuth();
-  const [isLoggedIn, setisLoggedIn] = useState(false);
-  
-return (
-  <Redirect href={!accessToken ? "/(auth)/landingPage" : "/(tabs)/home"} />
-)
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text>Edit app/index.tsx to edit this screen.</Text>
+    </View>
+  );
 }
