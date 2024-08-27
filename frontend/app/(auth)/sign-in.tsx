@@ -4,13 +4,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  Platform,
-  TouchableOpacity,
 } from "react-native";
-import {
-  GoogleSignin,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
 import React, { useEffect, useState } from "react";
 import images from "@/utils/images";
 import Button from "@/components/Button";
@@ -19,29 +13,13 @@ import Colors from "@/utils/Colors";
 import { FontFamily } from "@/utils/FontFamily";
 import FormField from "@/components/FormField";
 import { useRouter } from "expo-router";
-import icons from "@/utils/icons";
-import { useAuth } from "@/context/AuthContext";
 
 const Page = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [userInfo, setUserInfo] = useState<any>();
   const isPhoneNumberValid =
     phoneNumber.length >= 8 && phoneNumber.length <= 11;
   const router = useRouter();
-  const { saveAccessToken } = useAuth();
-
-  const configureGoogleSign = () => {
-    GoogleSignin.configure({
-      webClientId:
-        "785823932685-dg3ta11fc6cg3m4uk6ormi8saun44ooq.apps.googleusercontent.com",
-      offlineAccess: true,
-    });
-  };
-
-  useEffect(() => {
-    configureGoogleSign();
-  }, []);
 
   useEffect(() => {
     if (isPhoneNumberValid) {
@@ -51,33 +29,10 @@ const Page = () => {
     }
   }, [phoneNumber]);
 
-  const googleSignIn = async () => {
-    console.log("Pressed sign in");
-
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      if (userInfo?.idToken) {
-        saveAccessToken(userInfo?.idToken);
-      }
-      router.replace("/(tabs)/home");
-    } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log("User cancelled the login flow");
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log("Sign in is in progress already");
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log("Play services not available or outdated");
-      } else {
-        console.log("Some other error happened:", error.toString());
-      }
-    }
+  const handleContinue = () => {
+    if(!isPhoneNumberValid) return;
+    router.push(`/(auth)/verify/${phoneNumber}`);
   };
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
-
-  const handleContinue = () => {};
 
   return (
     <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -113,26 +68,6 @@ const Page = () => {
             handlePress={handleContinue}
             disabled={isDisabled}
           />
-
-          <Text style={styles.orText}>Or</Text>
-          <View style={styles.providersContainer}>
-            <TouchableOpacity
-              style={[
-                styles.provider,
-                {
-                  backgroundColor:
-                    Platform.OS === "android" ? "#F0F5FA" : "#1B1F2F",
-                },
-              ]}
-              onPress={googleSignIn}
-            >
-              <Image
-                source={Platform.OS === "android" ? icons.google : icons.apple}
-                style={styles.providerIcon}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
       <StatusBar style="light" />
@@ -148,14 +83,14 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 500,
+    height: 600,
   },
   bottomContainer: {
     backgroundColor: Colors.white,
     padding: 16,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    minHeight: "50%",
+    minHeight: "40%",
     width: "100%",
     position: "absolute",
     bottom: 0,
@@ -178,13 +113,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   formFieldContainer: {
-    marginTop: 40,
+    marginTop: 50,
   },
   infoTextContainer: {
     alignItems: "center",
     width: "75%",
     margin: "auto",
-    marginVertical: 25,
+    marginVertical: 40,
   },
   infoText: {
     textAlign: "center",
@@ -196,34 +131,6 @@ const styles = StyleSheet.create({
     color: Colors.muted,
     fontFamily: FontFamily.semiBold,
     fontSize: 15,
-  },
-  orText: {
-    color: "#646982",
-    fontFamily: FontFamily.medium,
-    marginVertical: 15,
-    textAlign: "center",
-    fontSize: 20,
-  },
-  providersContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
-  provider: {
-    padding: 16,
-    marginTop: 8,
-    borderColor: "transparent",
-    borderWidth: 1,
-    borderRadius: 50,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 7,
-    elevation: 5,
-  },
-  providerIcon: {
-    width: 40,
-    height: 40,
   },
 });
 
