@@ -5,7 +5,12 @@ import {
   Image,
   ScrollView,
   Platform,
+  TouchableOpacity,
 } from "react-native";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 import React, { useEffect, useState } from "react";
 import images from "@/utils/images";
 import Button from "@/components/Button";
@@ -15,13 +20,28 @@ import { FontFamily } from "@/utils/FontFamily";
 import FormField from "@/components/FormField";
 import { useRouter } from "expo-router";
 import icons from "@/utils/icons";
+import { useAuth } from "@/context/AuthContext";
 
 const Page = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [userInfo, setUserInfo] = useState<any>();
   const isPhoneNumberValid =
     phoneNumber.length >= 8 && phoneNumber.length <= 11;
   const router = useRouter();
+  const { saveAccessToken } = useAuth();
+
+  const configureGoogleSign = () => {
+    GoogleSignin.configure({
+      webClientId:
+        "785823932685-dg3ta11fc6cg3m4uk6ormi8saun44ooq.apps.googleusercontent.com",
+      offlineAccess: true,
+    });
+  };
+
+  useEffect(() => {
+    configureGoogleSign();
+  }, []);
 
   useEffect(() => {
     if (isPhoneNumberValid) {
@@ -30,6 +50,32 @@ const Page = () => {
       setIsDisabled(true);
     }
   }, [phoneNumber]);
+
+  const googleSignIn = async () => {
+    console.log("Pressed sign in");
+
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      if (userInfo?.idToken) {
+        saveAccessToken(userInfo?.idToken);
+      }
+      router.replace("/(tabs)/home");
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log("User cancelled the login flow");
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log("Sign in is in progress already");
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log("Play services not available or outdated");
+      } else {
+        console.log("Some other error happened:", error.toString());
+      }
+    }
+  };
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
 
   const handleContinue = () => {};
 
@@ -69,9 +115,8 @@ const Page = () => {
           />
 
           <Text style={styles.orText}>Or</Text>
-
           <View style={styles.providersContainer}>
-            <View
+            <TouchableOpacity
               style={[
                 styles.provider,
                 {
@@ -79,13 +124,14 @@ const Page = () => {
                     Platform.OS === "android" ? "#F0F5FA" : "#1B1F2F",
                 },
               ]}
+              onPress={googleSignIn}
             >
               <Image
                 source={Platform.OS === "android" ? icons.google : icons.apple}
                 style={styles.providerIcon}
                 resizeMode="contain"
               />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -152,8 +198,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   orText: {
-    color: Colors.heading,
-    fontFamily: FontFamily.bold,
+    color: "#646982",
+    fontFamily: FontFamily.medium,
     marginVertical: 15,
     textAlign: "center",
     fontSize: 20,

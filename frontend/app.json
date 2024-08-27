@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.skytel.beanhub"
     },
     "android": {
       "adaptiveIcon": {
@@ -33,6 +34,14 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "21bfe9c8-e88e-47b3-ba9c-3f96474f9127"
+      }
     }
   }
 }
