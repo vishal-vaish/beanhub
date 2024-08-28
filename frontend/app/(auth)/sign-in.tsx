@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import images from "@/utils/images";
@@ -20,6 +21,7 @@ const Page = () => {
   const isPhoneNumberValid =
     phoneNumber.length >= 8 && phoneNumber.length <= 11;
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isPhoneNumberValid) {
@@ -31,11 +33,22 @@ const Page = () => {
 
   const handleContinue = () => {
     if(!isPhoneNumberValid) return;
-    router.push(`/(auth)/verify/${phoneNumber}`);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push(`/(auth)/verify/${phoneNumber}`);
+    },2000);
   };
 
   return (
     <ScrollView contentContainerStyle={{ height: "100%" }}>
+      {isLoading && (
+        <View style={[StyleSheet.absoluteFill, styles.loading]}>
+          <ActivityIndicator size="large" color={Colors.primary} />
+          <Text style={{ fontSize: 18, padding: 10 }}>Sending code...</Text>
+        </View>
+      )}
       <View style={styles.container}>
         <Image
           source={images.coffeeBeans}
@@ -64,7 +77,7 @@ const Page = () => {
           </View>
 
           <Button
-            buttonText="Continue"
+            buttonText="Login Wih OTP"
             handlePress={handleContinue}
             disabled={isDisabled}
           />
@@ -131,6 +144,12 @@ const styles = StyleSheet.create({
     color: Colors.muted,
     fontFamily: FontFamily.semiBold,
     fontSize: 15,
+  },
+  loading: {
+    zIndex: 10,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

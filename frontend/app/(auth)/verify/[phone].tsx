@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   CodeField,
   Cursor,
@@ -42,6 +42,7 @@ const Page = () => {
           const extractedOtp = match[1];
           setCode(extractedOtp);
           verifyOtp(extractedOtp);
+          handlePress();
           console.log("extracted Otp", extractedOtp);
         }
       } catch (error) {
@@ -77,13 +78,9 @@ const Page = () => {
     }
   };
 
-  useEffect(() => {
-    if (code.length === 6) {
-      console.log("verify", code);
-    }
-  });
-
-  const handlePress = () => {};
+  const handlePress = () => {
+    router.replace("/(auth)/profile")
+  };
 
   return (
     <View style={styles.container}>
@@ -194,7 +191,7 @@ const styles = StyleSheet.create({
   },
   focusCell: {
     paddingBottom: 4,
-    borderColor: "#000",
+    borderColor: Colors.primary,
     borderWidth: 2,
   },
   buttonContainer: {
