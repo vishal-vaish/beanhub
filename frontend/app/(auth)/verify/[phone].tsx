@@ -1,59 +1,131 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
-import { router, useLocalSearchParams } from "expo-router";
-import Button from "@/components/Button";
-import { FontFamily } from "@/utils/FontFamily";
+import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { useLocalSearchParams } from "expo-router";
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from "react-native-confirmation-code-field";
 import Colors from "@/utils/Colors";
-import {OtpInput} from "react-native-otp-entry";
+import RNOtpVerify from "react-native-otp-verify";
+import { FontFamily } from "@/utils/FontFamily";
+import Button from "@/components/Button";
+
+const CELL_COUNT = 4;
 
 const Page = () => {
-  const [otp, setOtp] = useState<string>("");
+  const { phone } = useLocalSearchParams<{
+    phone: string;
+  }>();
+  const [code, setCode] = useState("");
+  const ref = useBlurOnFulfill({ value: code, cellCount: CELL_COUNT });
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value: code,
+    setValue: setCode,
+  });
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-    const {phone} = useLocalSearchParams<{
-        phone: string;
-    }>();
-
 
   useEffect(() => {
-    setIsButtonDisabled(otp.length !== 4);
-  }, [otp]);
+    RNOtpVerify.getHash()
+      .then((hash) => {
+        console.log("Hash:", hash);
+        // You can use this hash when requesting the OTP from your server
+      })
+      .catch(console.log);
 
-  const handlePress = async () => {
-    // WIP. To integrate the OTP API
-    // await login();
-    router.push("/home");
+    RNOtpVerify.startOtpListener((message) => {
+      try {
+        const otpRegex = /(\d{4})/g;
+        const match = otpRegex.exec(message);
+        if (match) {
+          const extractedOtp = match[1];
+          setCode(extractedOtp);
+          verifyOtp(extractedOtp);
+          console.log("extracted Otp", extractedOtp);
+        }
+      } catch (error) {
+        console.log("Error extracting OTP:", error);
+      }
+    });
+
+    return () => {
+      RNOtpVerify.removeListener();
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsButtonDisabled(code.length !== 4);
+  }, [code]);
+
+  const verifyOtp = async (otpCode: string) => {
+    console.log(otpCode);
+
+    try {
+      // Implement your OTP verification logic here
+      // For example:
+      // const result = await verifyOtpWithServer(otpCode);
+      // if (result.success) {
+      //   router.push("/home");
+      // } else {
+      //   console.log("OTP verification failed");
+      // }
+      // For now, we'll just navigate to the home page
+      // router.push("/home");
+    } catch (error) {
+      console.log("Error verifying OTP:", error);
+    }
   };
 
-//   console.log(phoneNumber);
-  
+  useEffect(() => {
+    if (code.length === 6) {
+      console.log("verify", code);
+    }
+  });
+
+  const handlePress = () => {};
+
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.innerContainer}>
-          <Text style={styles.phoneNumber}>+91 {phone}</Text>
-          <Text style={styles.instructionText}>
-            Enter the 4-digit OTP code that has been sent from SMS to complete your account registration
+      <View style={styles.innerContainer}>
+        <Text style={styles.phoneNumber}>+91 {phone}</Text>
+        <Text style={styles.legal}>
+          We have sent you an SMS with a code to the number above.
+        </Text>
+        <Text style={styles.legal}>
+          To complete your phone number verification, please enter the 4-digit
+          activation code.
+        </Text>
+
+        <CodeField
+          ref={ref}
+          {...props}
+          value={code}
+          onChangeText={setCode}
+          cellCount={CELL_COUNT}
+          rootStyle={styles.codeFieldRoot}
+          keyboardType="number-pad"
+          textContentType="oneTimeCode"
+          renderCell={({ index, symbol, isFocused }) => (
+            <View
+              // Make sure that you pass onLayout={getCellOnLayoutHandler(index)} prop to root component of "Cell"
+              onLayout={getCellOnLayoutHandler(index)}
+              key={index}
+              style={[styles.cellRoot, isFocused && styles.focusCell]}
+            >
+              <Text style={styles.cellText}>
+                {symbol || (isFocused ? <Cursor /> : null)}
+              </Text>
+            </View>
+          )}
+        />
+
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>
+            Didn't receive a verification code?
           </Text>
-          <View style={styles.otpContainer}>
-            <OtpInput
-              numberOfDigits={4}
-              focusColor="#000000"
-              focusStickBlinkingDuration={500}
-              onTextChange={(text) => setOtp(text)}
-              theme={{
-                containerStyle: styles.otpInputContainer,
-                pinCodeContainerStyle: styles.pinCodeContainer,
-                focusedPinCodeContainerStyle: styles.focusedPinCodeContainer,
-                filledPinCodeContainerStyle: styles.filledPinCodeContainer,
-              }}
-            />
-            <Text style={styles.resendText}>
-              Haven't got the confirmation code yet? {" "}
-              <Text style={styles.resendLink}>Resend</Text>
-            </Text>
-          </View>
         </View>
-      </ScrollView>
+      </View>
       <View style={styles.buttonContainer}>
         <Button
           buttonText={"Confirm"}
@@ -69,15 +141,13 @@ const Page = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-  },
-  scrollContent: {
-    flexGrow: 1,
-    height: "100%",
+    backgroundColor: Colors.white,
+    justifyContent: "space-between"
   },
   innerContainer: {
-    flex: 1,
-    padding: 16,
+    alignItems: "center",
+    padding: 20,
+    gap: 20,
   },
   phoneNumber: {
     marginTop: 32,
@@ -85,44 +155,47 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: FontFamily.semiBold,
   },
-  instructionText: {
-    marginTop: 16,
-    marginBottom: 24,
-    fontSize: 16,
+  legal: {
+    fontSize: 14,
     textAlign: "center",
-    color: Colors.heading,
+    color: "#000",
     fontFamily: FontFamily.regular,
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
-  otpContainer: {
+  button: {
+    width: "100%",
     alignItems: "center",
-    marginBottom: 24,
   },
-  otpInputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
+  buttonText: {
+    color: Colors.blue,
+    fontSize: 18,
+    marginTop:10
   },
-  pinCodeContainer: {
-    backgroundColor: "#F0F0F0",
+  codeFieldRoot: {
+    marginTop: 20,
+    width: 360,
+    marginLeft: "auto",
+    marginRight: "auto",
+    gap: 10,
+  },
+  cellRoot: {
     width: 58,
     height: 58,
-    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 10
   },
-  focusedPinCodeContainer: {
-    backgroundColor: "#FFFFFF",
-  },
-  filledPinCodeContainer: {
-    backgroundColor: "#FFFFFF",
-  },
-  resendText: {
-    marginTop: 35,
-    fontSize: 16,
+  cellText: {
+    color: "#000",
+    fontSize: 36,
     textAlign: "center",
   },
-  resendLink: {
-    fontFamily: FontFamily.semiBold,
-    color: Colors.blue,
+  focusCell: {
+    paddingBottom: 4,
+    borderColor: "#000",
+    borderWidth: 2,
   },
   buttonContainer: {
     padding: 16,
