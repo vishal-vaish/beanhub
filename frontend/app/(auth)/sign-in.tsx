@@ -12,8 +12,8 @@ import Button from "@/components/Button";
 import { StatusBar } from "expo-status-bar";
 import Colors from "@/utils/Colors";
 import { FontFamily } from "@/utils/FontFamily";
-import FormField from "@/components/FormField";
 import { useRouter } from "expo-router";
+import Input from "@/components/Input";
 
 const Page = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -60,7 +60,7 @@ const Page = () => {
             <View style={styles.headerLine} />
             <Text style={styles.headerText}>Login or Sign Up</Text>
           </View>
-          <FormField
+          <Input
             type="number"
             inputValue={phoneNumber}
             handleChangeText={(e) => setPhoneNumber(e)}
@@ -70,7 +70,7 @@ const Page = () => {
 
           <View style={styles.infoTextContainer}>
             <Text style={styles.infoText}>
-              By tapping "Continue" you agree to our{" "}
+              By tapping "Login With OTP" you agree to our{" "}
               <Text style={styles.linkText}>Terms of Use</Text> and{" "}
               <Text style={styles.linkText}>Privacy Policy</Text>
             </Text>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   formFieldContainer: {
-    marginTop: 50,
+    marginTop: 40,
   },
   infoTextContainer: {
     alignItems: "center",

@@ -79,7 +79,7 @@ const Page = () => {
   };
 
   const handlePress = () => {
-    router.replace("/(auth)/profile")
+    router.replace("/(auth)/profilePage")
   };
 
   return (
