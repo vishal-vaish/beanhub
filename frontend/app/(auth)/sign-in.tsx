@@ -14,6 +14,7 @@ import Colors from "@/utils/Colors";
 import { FontFamily } from "@/utils/FontFamily";
 import { useRouter } from "expo-router";
 import Input from "@/components/Input";
+import Loading from "@/components/Loading";
 
 const Page = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -44,10 +45,7 @@ const Page = () => {
   return (
     <ScrollView contentContainerStyle={{ height: "100%" }}>
       {isLoading && (
-        <View style={[StyleSheet.absoluteFill, styles.loading]}>
-          <ActivityIndicator size="large" color={Colors.primary} />
-          <Text style={{ fontSize: 18, padding: 10 }}>Sending code...</Text>
-        </View>
+        <Loading/>
       )}
       <View style={styles.container}>
         <Image
