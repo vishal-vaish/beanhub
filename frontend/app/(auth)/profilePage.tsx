@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "@/utils/Colors";
 import { FontFamily } from "@/utils/FontFamily";
 import Input from "@/components/Input";
+import Select from "@/components/Select";
 
 type Form = {
   firstname: string;
@@ -30,6 +31,15 @@ const Page = () => {
       [field]: value,
     }));
   };
+
+  const handleGenderChange = (value: string) => {
+    setForm((p) => ({...p, ["gender"]: value}))
+  };
+
+  const genderOption = [
+    { label: "Male", value: "M" },
+    { label: "Female", value: "F" },
+  ];  
 
   return (
     <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -67,6 +77,13 @@ const Page = () => {
           inputValue={form.phoneNumber}
           handleChangeText={(value) => handleChangeText("phoneNumber", value)}
           inputPlaceholder="Enter your Phone number"
+        />
+
+        <Select
+          title="Gender (option)"
+          option={genderOption}
+          selectedValue={form.gender}
+          onValueChange={handleGenderChange}
         />
       </View>
     </ScrollView>
