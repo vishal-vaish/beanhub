@@ -28,6 +28,7 @@ const Select = (props: Props) => {
       labelStyle={styles.label}
       dropdownStyle={styles.dropdown}
       selectedItemStyle={styles.selectedItemStyle}
+      placeholderStyle={styles.placeholderStyle}
       checkboxControls={{
         checkboxSize: 20,
         checkboxLabelStyle: {
@@ -62,7 +63,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   selectedItemStyle: {
-    fontSize: 18,
+    fontSize: 20,
+  },
+  placeholderStyle: {
+    fontSize: 20,
+    color: Colors.gray
   },
 });
 

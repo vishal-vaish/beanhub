@@ -5,6 +5,9 @@ import Colors from "@/utils/Colors";
 import { FontFamily } from "@/utils/FontFamily";
 import Input from "@/components/Input";
 import Select from "@/components/Select";
+import Picker from "@/components/DatePicker";
+import Button from "@/components/Button";
+import { StatusBar } from "expo-status-bar";
 
 type Form = {
   firstname: string;
@@ -33,13 +36,19 @@ const Page = () => {
   };
 
   const handleGenderChange = (value: string) => {
-    setForm((p) => ({...p, ["gender"]: value}))
+    setForm((p) => ({ ...p, ["gender"]: value }));
+  };
+
+  const handleDateChange = (date: Date) => {
+    setForm((prevForm) => ({ ...prevForm, birthday: date.toDateString() }));
   };
 
   const genderOption = [
     { label: "Male", value: "M" },
     { label: "Female", value: "F" },
-  ];  
+  ];
+
+  const handleCreateAccount = () => {}
 
   return (
     <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -69,7 +78,7 @@ const Page = () => {
           inputValue={form.emailaddress}
           handleChangeText={(value) => handleChangeText("emailaddress", value)}
           inputPlaceholder="Email Address"
-          label="Email address"
+          label="Email address ()"
         />
 
         <Input
@@ -85,7 +94,19 @@ const Page = () => {
           selectedValue={form.gender}
           onValueChange={handleGenderChange}
         />
+
+        <Picker
+          value={form.birthday ? new Date(form.birthday) : new Date()}
+          setValue={handleDateChange}
+        />
+
+        <Button
+          buttonText="Get Started"
+          handlePress={handleCreateAccount}
+          containerStyles={{ marginVertical: 20 }}
+        />
       </View>
+      <StatusBar style="dark" />
     </ScrollView>
   );
 };

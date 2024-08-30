@@ -25,7 +25,6 @@ const Page = () => {
         <Button
           buttonText="Get Started"
           handlePress={() => router.push("/(auth)/onboarding")}
-          // handlePress={() => router.push("/(auth)/profilePage")}
           containerStyles={{width:"90%", marginVertical:50}}
         />
       </View>

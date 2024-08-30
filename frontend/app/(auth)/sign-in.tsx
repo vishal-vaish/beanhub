@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Image,
   ScrollView,
-  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import images from "@/utils/images";

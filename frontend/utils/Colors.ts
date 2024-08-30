@@ -12,6 +12,7 @@ export default {
   yellow: '#FCC70B',
   white: "#FFFFFF",
   black: "#000000",
-  blue: "#3498db"
+  blue: "#3498db",
+  darkGreen: "#78d59d",
 };
 
