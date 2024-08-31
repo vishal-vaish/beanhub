@@ -1,4 +1,4 @@
-import customerModel from "../../models/customerModel.js";
+import customerModel from "../../models/CustomerModel.js";
 
 const updateCusomerProfile = async(req, res) => {
     try {

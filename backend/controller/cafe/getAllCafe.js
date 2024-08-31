@@ -1,5 +1,6 @@
 const getAllCafe = (req, res) => {
   try {
+    
   } catch (error) {}
 };
 

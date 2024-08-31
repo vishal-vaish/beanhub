@@ -5,3 +5,4 @@
 node_modules
 .frontend/.env
 backend/.env
+admin/.env
