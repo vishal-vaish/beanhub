@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import customerModel from "../../models/CustomerModel.js";
+import customerModel from '../../models/CustomerModel.js';
 
 const otpVerification = async(req, res) => {
   try {
