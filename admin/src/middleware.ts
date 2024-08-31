@@ -5,7 +5,9 @@ export function middleware(request: NextRequest) {
 //   const accessToken = request.cookies.get('accessToken')?.value;
 const accessToken = "";
 
-  if (!accessToken) {
+const { pathname } = request.nextUrl;
+
+  if (!accessToken && pathname !== '/login') {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -13,5 +15,5 @@ const accessToken = "";
 }
 
 export const config = {
-    matcher: ['/(.*)'],
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
   };
