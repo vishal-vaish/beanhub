@@ -4,4 +4,4 @@
 .frontend/expo-env.d.ts
 node_modules
 .frontend/.env
-backend/
+backend/.env
