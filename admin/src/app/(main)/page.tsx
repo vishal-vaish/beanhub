@@ -1,16 +1,20 @@
-"use client";
+import {redirect} from 'next/navigation';
+import React from 'react'
 
-import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+const Page = () => {
+  const userProfile = {
+    name: "vishal vaish",
+    isAdmin: true,
+    cafeId: "255335523fddhf3542"
+  }
 
-const AdminDashboard = () => {
-  const router = useRouter();
+  if (!userProfile.isAdmin) {
+    return redirect(`/cafe/${userProfile.cafeId}`)
+  }
 
-  useEffect(() => {
-    router.push('/home');
-  }, [router]);
+  if (userProfile.isAdmin) {
+    return redirect("/home")
+  }
+}
 
-  return null; 
-};
-
-export default AdminDashboard;
+export default Page
