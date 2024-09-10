@@ -10,6 +10,7 @@ import {Button} from "@/components/ui/button";
 import {authenticateUser} from "@/lib/endpoint";
 import {useAuth} from "@/context/AuthContext";
 import {useRouter} from "next/navigation";
+import {notyf} from "@/lib/notyf";
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -27,19 +28,23 @@ const Login = () => {
     try {
       const authHeader = `Basic ${btoa(`${username}:${password}`)}`;
       const loginResponse = await authenticateUser(authHeader);
-     if(loginResponse && loginResponse.token) {
-       setAccessToken(loginResponse.token);
-       router.push("/");
-     }
-    } catch (error) {
-
+      if (loginResponse && loginResponse.token) {
+        setAccessToken(loginResponse.token);
+        router.push("/");
+      }
+    } catch (error: any) {
+      if (error && error.status === 401) {
+        setErrorMessage("Invalid credentials")
+      } else {
+        notyf.error("Unable to login")
+      }
     } finally {
       setIsLoading(false);
     }
   }
   const LoginLoader = () => {
     return (
-      <div className="flex justify-center items-center h-96">
+      <div className="flex justify-center items-center h-80">
         <Image
           src={loginLoader}
           alt="login loader"
@@ -96,7 +101,7 @@ const Login = () => {
               </Button>
             </div>
 
-            {errorMessage && <div className="text-red-500 my-4">{errorMessage}</div>}
+            {errorMessage && <div className="text-red-500 my-4 font-bold">{errorMessage}</div>}
 
             <button
               type="submit"

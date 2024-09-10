@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import {AuthContextProvider} from "@/context/AuthContext";
 import {UserContextProvider} from "@/context/userContext";
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,6 +36,7 @@ export default function RootLayout(
     <AuthContextProvider>
       <UserContextProvider>
         {children}
+        <ToastContainer/>
       </UserContextProvider>
     </AuthContextProvider>
     </body>
