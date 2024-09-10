@@ -7,8 +7,9 @@ import loginLoader from "@/assets/icons/loader.gif";
 import loginImage from "../../assets/image/login.jpg";
 import {Eye, EyeOff, UserRound} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {UserLoginRequest} from "@/models/request/UserLoginRequest";
 import {authenticateUser} from "@/lib/endpoint";
+import {useAuth} from "@/context/AuthContext";
+import {useRouter} from "next/navigation";
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -16,22 +17,20 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const {setAccessToken} = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage("");
     setIsLoading(true);
-
-    const loginRequest: UserLoginRequest = {
-      username: username,
-      password: password,
-    };
-
     try {
-      const { username, password } = loginRequest;
       const authHeader = `Basic ${btoa(`${username}:${password}`)}`;
-      const loginResponse = await authenticateUser(loginRequest, authHeader);
-      console.log(loginResponse);
+      const loginResponse = await authenticateUser(authHeader);
+     if(loginResponse && loginResponse.token) {
+       setAccessToken(loginResponse.token);
+       router.push("/");
+     }
     } catch (error) {
 
     } finally {
