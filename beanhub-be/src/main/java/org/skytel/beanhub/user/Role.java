@@ -3,6 +3,7 @@ package org.skytel.beanhub.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +18,7 @@ import java.util.Set;
 public class Role {
 
     @Id
-    @GeneratedValue(generator = "uuid-hibernate-generator")
+    @UuidGenerator
     private String id;
 
     @Enumerated(EnumType.STRING)

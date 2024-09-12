@@ -1,29 +1,27 @@
 package org.skytel.beanhub.user;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Set;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "privileges")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Privilege {
-
     @Id
-    @GeneratedValue(generator = "uuid-hibernate-generator")
+    @UuidGenerator
     private String id;
 
+    @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = false)
-    private String name;
+    private EPrivilege name;
 
-    @JsonBackReference
     @ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
     private Set<Role> roles;
-
 }

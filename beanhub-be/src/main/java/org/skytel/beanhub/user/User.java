@@ -1,10 +1,12 @@
 package org.skytel.beanhub.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
@@ -20,7 +22,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(generator = "uuid-hibernate-generator")
+    @UuidGenerator
     private String id;
 
     @Column(unique = true, nullable = false)
@@ -43,10 +45,12 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
     @Column(name = "created_at", nullable = false, updatable = false)
     private ZonedDateTime createdAt;
 
     @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "UTC")
     @Column(name = "updated_at", nullable = false)
     private ZonedDateTime updatedAt;
 }

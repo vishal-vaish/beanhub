@@ -20,7 +20,7 @@ public class AuthController {
 
     @PostMapping("/token")
     public ResponseEntity<AuthResponse> token(Authentication authentication) {
-        var token = jwtService.generateToken(authentication);
+        var token = this.jwtService.generateToken(authentication);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }

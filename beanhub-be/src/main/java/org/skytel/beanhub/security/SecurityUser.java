@@ -28,7 +28,7 @@ public class SecurityUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles().stream()
                 .flatMap(role -> role.getPrivileges().stream())
-                .map(privilege -> new SimpleGrantedAuthority(privilege.getName()))
+                .map(privilege -> new SimpleGrantedAuthority(privilege.getName().toString()))
                 .collect(Collectors.toSet());
     }
 
