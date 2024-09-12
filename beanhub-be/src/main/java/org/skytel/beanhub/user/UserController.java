@@ -29,4 +29,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(createUserRequest));
     }
 
+    @PutMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(Principal principal, @Valid @RequestBody ResetPasswordRequest request) {
+        boolean result = userService.resetPassword(principal, request.oldPassword(), request.newPassword());
+        return result ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
 }

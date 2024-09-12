@@ -1,5 +1,7 @@
 package org.skytel.beanhub.user;
 
+import org.skytel.beanhub.exception.InvalidCredentialsException;
+import org.skytel.beanhub.exception.InvalidPasswordException;
 import org.skytel.beanhub.exception.RoleNotFoundException;
 import org.skytel.beanhub.exception.UsernameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -51,4 +54,21 @@ public class UserService {
         user.setRoles(Set.of(adminRole));
         return this.userRepository.save(user);
     }
+
+    @PreAuthorize("hasAuthority('SCOPE_USER_READ')")
+    @Transactional
+    public boolean resetPassword(Principal principal, String oldPassword, String newPassword) {
+        return Optional.ofNullable(fetchCurrentUser(principal))
+                .filter(user -> passwordEncoder.matches(oldPassword, user.getPassword()))
+                .map(user -> {
+                    if (passwordEncoder.matches(newPassword, user.getPassword())) {
+                        throw new InvalidPasswordException("New password must be different from the old password");
+                    }
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                    userRepository.save(user);
+                    return true;
+                })
+                .orElseThrow(() -> new InvalidCredentialsException("Old password is incorrect"));
+    }
+
 }
